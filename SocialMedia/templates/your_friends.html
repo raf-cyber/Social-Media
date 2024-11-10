@@ -1,0 +1,123 @@
+{% load static %}
+
+{% block friends %}
+
+<!-- CSS STYLING -->
+
+<style>
+    .friends-section {
+        text-align: center;
+        position: relative;
+        margin: 0 1em; /* Margin on both sides of the section */
+    }
+
+    .friends-list {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 1em 0;
+    }
+
+    .friend-card {
+        display: inline-block;
+        margin: 0 1em; /* Margin on both sides of each card */
+        text-align: center;
+    }
+
+    .friend-pic {
+        width: 4em;
+        height: 4em;
+        border-radius: 50%;
+        margin-bottom: 0.5em; /* Space between image and username */
+    }
+
+    .friend-username {
+        margin-top: 0.5em;
+        font-size: 1em; /* Adjust font size as needed */
+    }
+
+    .navigation-arrows {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+    }
+
+    .arrow {
+        background-color: rgba(0, 0, 0, 0.1);
+        border: none;
+        padding: 0.5em;
+        cursor: pointer;
+        border-radius: 0.3em;
+    }
+    .no-friends-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-top: 1em;
+    height: 100%; /
+    }
+
+</style>
+
+<!-- <div id="preloader" style="
+    background: #fff url(../media/loader.gif) no-repeat center center;
+    height: 105vh;
+    width: 100%;
+    position: fixed;
+    z-index: 1000;
+    "></div> -->
+
+<!-- HTML CODE -->
+<div class="friends-section">
+    <div class="friends-list">
+        {% for friend in friends %}
+            <div class="friend-card">
+                <a href="{% url 'profile_view' friend.username %}">
+                    {% if friend.profile and friend.profile.profile_picture %}
+                        <img src="{{ friend.profile.profile_picture.url }}" alt="Profile Picture" class="friend-pic">
+                    {% else %}
+                        <img src="{% static 'images/default.png' %}" alt="Default Profile Picture" class="friend-pic">
+                    {% endif %}
+                </a>
+                <p class="friend-username">{{ friend.username }}</p>
+            </div>
+        {% empty %}
+        <div class="no-friends-message">
+            <p>No friends found.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<!-- java script -->
+
+<script>
+    $(document).ready(function() {
+    $('.right-arrow').click(function() {
+        $('.friends-list').animate({ scrollLeft: '+=10em' }, 300);
+    });
+
+    $('.left-arrow').click(function() {
+        $('.friends-list').animate({ scrollLeft: '-=10em' }, 300);
+    });
+});
+
+</script>
+
+<!-- <script>
+    var loader = document.getElementById("preloader");
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            loader.style.display = "none";
+        }, 1000); 
+    });
+</script> -->
+
+{% endblock friends %}

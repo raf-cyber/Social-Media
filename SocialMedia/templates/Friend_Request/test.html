@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Friend Requests</title>
+</head>
+<body>
+    <h2>Send Friend Requests</h2>
+    <ul>
+        <li><a href="{% url 'send_friend_request' 1 %}">Send request to User 1</a></li>
+        <li><a href="{% url 'send_friend_request' 2 %}">Send request to User 2</a></li>
+        <!-- Add more users as needed -->
+    </ul>
+</body>
+</html>

@@ -1,0 +1,173 @@
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212;
+    color: white;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Example styles for headers, links, etc. */
+body.dark-mode header {
+    background-color: #333;
+    color: white;
+}
+
+body.dark-mode .btn {
+    background-color: #444;
+    color: white;
+}
+
+/* Customize form inputs, cards, and other elements */
+body.dark-mode .nav-list a {
+    color: #ccc;
+}
+
+body.dark-mode .card {
+    background-color: #222;
+    color: white;
+}
+
+body.dark-mode input, .dark-mode textarea {
+    background-color: #333;
+    color: white;
+}
+
+body.dark-mode .comment-section {
+    background-color: #2c2f34;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+body.dark-mode .comment-title {
+    color: #e6e6e6;
+    font-weight: bold;
+}
+
+body.dark-mode .comments-list {
+    margin-top: 15px;
+}
+
+body.dark-mode .comment {
+    background-color: #3a3f47;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+
+body.dark-mode .comment strong {
+    color: #b2b2b2;
+}
+
+body.dark-mode .comment-date {
+    color: #888;
+}
+
+body.dark-mode .no-comments {
+    color: #ccc;
+}
+
+body.dark-mode .comment-form textarea {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+}
+
+body.dark-mode .comment-form textarea::placeholder {
+    color: #999;
+}
+
+body.dark-mode .submit-comment-button {
+    background-color: #444;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+body.dark-mode .submit-comment-button:hover {
+    background-color: #555;
+}
+
+/* Dark Mode Styles for Posts */
+body.dark-mode .post {
+    background-color: #2C2C2C;
+    border: 1px solid #444;
+    color: #ddd;
+}
+
+body.dark-mode .post p {
+    color: #ddd;
+}
+
+body.dark-mode .post em {
+    color: #aaa;
+}
+
+body.dark-mode .profile-container {
+    color: #ddd;
+}
+
+body.dark-mode .profile-container img.profile-pic {
+    border: 2px solid #444;
+}
+
+body.dark-mode .profile-container h3 {
+    color: #ddd;
+}
+
+body.dark-mode .responsive-image,
+body.dark-mode .post-video {
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+
+body.dark-mode .btn-danger {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+}
+
+body.dark-mode .btn-danger:hover {
+    background-color: #c0392b;
+}
+
+body.dark-mode .modal-content {
+    background-color: #333;
+    border-radius: 8px;
+    color: #ddd;
+}
+
+body.dark-mode .modal-header, body.dark-mode .modal-footer {
+    padding: 1em;
+}
+
+body.dark-mode .modal-title, body.dark-mode .modal-body {
+    color: #ddd;
+}
+
+body.dark-mode .btn-secondary {
+    background-color: #95a5a6;
+    color: white;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background-color: #7f8c8d;
+}
+
+body.dark-mode li {
+    color: #2C2C2C;
+}
+
+body.dark-mode .navbar {
+    background-color: #333;
+}
+
+body.dark-mode .navbar i {
+    color: white;
+}

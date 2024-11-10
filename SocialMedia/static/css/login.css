@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    margin: 0;
+    background-color: #f4f4f4; /* Soft background color */
+    font-family: "Poppins", sans-serif;
+}
+
+.container {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center the text */
+    width: 300px; /* Fixed width */
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    font-family: "Sansita Swashed", system-ui;
+}
+
+.form-group {
+    margin-bottom: 15px; /* Space between input fields */
+    text-align: left; /* Align labels to the left */
+}
+
+label {
+    display: block; /* Make labels block elements */
+    margin-bottom: 5px; /* Space between label and input */
+    font-weight: bold; /* Bold labels */
+}
+
+.log-in-button {
+    color: white;
+    background-color: #4DB5F9;
+    font-weight: 900;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%; /* Full width input */
+    padding: 10px;
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+button {
+    width: 100%; /* Full width button */
+    padding: 10px;
+    background-color: lightblue; /* Light blue button */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    font-size: 16px; /* Larger font */
+    margin-top: 10px; /* Space above button */
+}
+
+button:hover {
+    background-color: #007BFF; /* Darker blue on hover */
+    color: white; /* White text on hover */
+}
+
+.log-in-container {
+    margin-top: 15px; /* Space above the log-in container */
+}
+
+.log-in-container p {
+    color: #555; /* Dark gray text */
+}
+
+.log-in-container a {
+    color: lightblue; /* Light blue link */
+    text-decoration: none; /* No underline */
+}
+
+.log-in-container a:hover {
+    text-decoration: underline; /* Underline on hover */
+}

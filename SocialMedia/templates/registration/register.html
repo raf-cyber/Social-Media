@@ -1,0 +1,9 @@
+<h2>Register</h2>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.username.label_tag }} {{ form.username }}<br>
+    {{ form.email.label_tag }} {{ form.email }} <br>
+    {{ form.password.label_tag }} {{ form.password }} <br>
+    {{ form.password_confirm.label_tag }} {{ form.password_confirm }}
+    <button type="submit">Register</button>
+</form>

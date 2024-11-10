@@ -1,0 +1,395 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shorts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/dark-mode.css' %}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300..900&display=swap');
+        body {
+    font-family: "Poppins", serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden; /* Prevent scrolling */
+    background-color: #000;
+    color: #fff;
+}
+
+.shorts-container {
+    position: relative;
+    height: calc(100vh - 50px); /* Adjust height to give margin from the bottom */
+    width: 40vw;
+    overflow: hidden;
+    margin-bottom: 20px; /* Add margin from the bottom */
+}
+
+        .short {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .video-container {
+        display: flex;
+        align-items: center; /* Center vertically */
+        justify-content: center; /* Center horizontally */
+        position: relative;
+        height: 100%;
+        }
+
+        .upload-link {
+            margin: 1em 0;
+            text-decoration: none;
+            color: #fff;
+            transition: color 0.3s;
+            padding: 0.5em 1em;
+            border: none;
+            background-color: #007BFF;
+            border-radius: 0.3em;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .upload-link:hover {
+            background-color: #00BFFF;
+        }
+        .author-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1em;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 2;
+        }
+        .profile-pic {
+            width: 3em;
+            height: 3em;
+            border-radius: 50%;
+            margin-right: 0.5em;
+        }
+        .controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .control-button {
+            background-color: rgba(255, 255, 255, 0.5);
+            border: none;
+            padding: 0.5em;
+            border-radius: 0.3em;
+            cursor: pointer;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+        .control-button i {
+            font-size: 1.5em;
+        }
+        .control-button:hover {
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        .navigation-buttons {
+        display: flex;
+        flex-direction: column; /* Stack buttons vertically */
+        justify-content: center; /* Center buttons vertically */
+        position: absolute;
+        height: 100%;
+        left: 10px; /* Adjust for spacing from video */
+        }
+        .navigation-button {
+    background-color: rgba(211, 211, 211, 0.7); /* Light grey background */
+    color: black; 
+    border: none;
+    padding: 1em;
+    cursor: pointer;
+    border-radius: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+    width: 40px;
+    height: 40px;
+    margin: 10px 0; /* Space between buttons */
+    z-index: 100;
+}
+    .navigation-button:hover {
+        background-color: rgba(192, 192, 192, 0.9); /* Darker grey on hover */
+    }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1em;
+            background-color: #cacaca;
+            width: 100%;
+            top: 0;
+            z-index: 10;
+            height: 30px;
+            font-family: "Sansita Swashed", system-ui;
+        }
+        .logout-item {
+            margin-left: auto;
+        }
+        .nav-items {
+            display: flex;
+            font-size: 1.3rem; 
+        }
+        .nav-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        .nav-list li {
+            margin-right: 1.5em;
+        }
+        .nav-items a {
+            color: black;
+            text-decoration: none;
+            font-family: "Poppins", sans-serif;
+            font-size: 1.3rem;
+        }
+        .nav-items li {
+            color: black;
+        }
+        .app-name {
+            font-family: "Sansita Swashed", system-ui;
+            color: black;
+            font-size: 2rem;
+            margin-left: 5em; 
+        }
+        .video-container {
+            display: flex;
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+        }
+        body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode .navbar {
+    background-color: #333;
+}
+
+body.dark-mode .navbar .nav-items a {
+    color: #e0e0e0;
+}
+
+body.dark-mode .navbar .nav-items a:hover {
+    color: #1e90ff;
+}
+
+body.dark-mode .upload-link {
+    background-color: #6A0DAD;
+    color: #fff;
+}
+
+body.dark-mode .upload-link:hover {
+    background-color: #9370DB;
+}
+
+body.dark-mode .shorts-container {
+    background-color: #1c1c1c;
+    border-radius: 10px;
+}
+
+body.dark-mode .short {
+    background-color: #1c1c1c;
+}
+
+body.dark-mode .control-button {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #000;
+}
+
+body.dark-mode .control-button:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+body.dark-mode .navigation-button {
+    background-color: rgba(211, 211, 211, 0.7);
+    color: black;
+}
+
+body.dark-mode .navigation-button:hover {
+    background-color: rgba(192, 192, 192, 0.9);
+}
+
+body.dark-mode .author-info h3 {
+    color: #fff;
+}
+
+body.dark-mode .profile-pic {
+    border: 2px solid #fff;
+}
+body.dark-mode .navbar i, .app-name {
+    color: white;
+}
+    </style>
+</head>
+<body>
+
+    <div id="preloader" style="
+    background: #fff url(../media/loader.gif) no-repeat center center;
+    height: 105vh;
+    width: 100%;
+    position: fixed;
+    z-index: 1000;
+    "></div>
+
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="hamburger" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <div class="nav-items">
+            <div class="close-icon" onclick="toggleMenu()">
+                <div class="bar top"></div>
+                <div class="bar bottom"></div>
+            </div>
+            <ul class="nav-list" style="display: flex; list-style-type: none; padding: 0; margin: 0;">
+                <li style="margin: 0 1.5rem; font-size: 1.5rem;">
+                    <a href="{% url 'home' %}" style="text-decoration: none; color: inherit;">
+                        <i class="fa-solid fa-house"></i>
+                    </a>
+                </li>
+                <li style="margin: 0 1.5rem; font-size: 1.5rem;">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile_view' user.username %}" style="text-decoration: none; color: inherit;">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
+                    {% endif %}
+                </li>
+                <li style="margin: 0 1.5rem; font-size: 1.5rem;">
+                    <a href="{% url 'messages' %}" style="text-decoration: none; color: inherit;">
+                        <i class="fa-solid fa-message"></i>
+                    </a>
+                </li>            
+                <li style="margin: 0 1.5rem; font-size: 1.5rem;">
+                    <a href="{% url 'friends' %}" style="text-decoration: none; color: inherit;">
+                        <i class="fa-solid fa-user-friends"></i>
+                    </a>
+                </li>
+                <li style="margin: 0 1.5rem; font-size: 1.5rem;">
+                    <a href="{% url 'create_post' %}" style="text-decoration: none; color: inherit;">
+                        <i class="fa-solid fa-plus"></i>
+                    </a>
+                </li>
+                <li style="margin: 0 1.5rem; font-size: 1.5rem;">
+                    <a href="{% url 'shorts_view' %}" style="text-decoration: none; color: inherit;">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+                </li>
+            </ul>            
+        </div>
+        <div class="app-name">
+            <h3>Amity</h3>
+        </div>
+        <div class="nav-items" style="margin-left: auto;"></div>
+    </nav>
+    <!-- END OF NAVBAR -->
+
+    <a class="upload-link" href="{% url 'upload' %}">Upload a New Video</a>
+    <div class="shorts-container">
+        {% if shorts %}
+            <div class="short">
+                <div class="controls">
+                    <button class="control-button" id="pause-button"><i class="fas fa-pause"></i></button>
+                    <button class="control-button" id="mute-button"><i class="fas fa-volume-mute"></i></button>
+                </div>
+                <div class="author-info">
+                    {% if current_short.author.profile.profile_picture %}
+                        <a href="{% url 'profile_view' current_short.author.username %}">
+                            <img src="{{ current_short.author.profile.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
+                        </a>
+                    {% else %}
+                        <a href="{% url 'profile_view' current_short.author.username %}">
+                            <img src="{% static DEFAULT_PROFILE_PIC %}" alt="Default Profile Picture" class="profile-pic">
+                        </a>
+                    {% endif %}
+                    <h3>{{ current_short.author.username }}</h3>
+                </div>
+                <div class="video-container">
+                    <div class="navigation-buttons">
+                        <button class="navigation-button" onclick="goToPrevious()">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="navigation-button" onclick="goToNext()">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <video id="video" autoplay muted>
+                        <source src="{{ current_short.video.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+
+            </div>
+        {% else %}
+            <p>No shorts available.</p>
+        {% endif %}
+    </div>
+    
+    
+    
+    
+
+    <script>
+        let currentIndex = {{ current_index }};
+    const shorts = {{ shorts|length }};
+
+    function goToPrevious() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            loadShort(currentIndex);
+        }
+    }
+
+    function goToNext() {
+        if (currentIndex < shorts - 1) {
+            currentIndex++;
+            loadShort(currentIndex);
+        }
+    }
+
+    function loadShort(index) {
+        window.location.href = "{% url 'shorts_view' %}?index=" + index;
+    }
+    </script>
+
+<script>
+    var loader = document.getElementById("preloader");
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            loader.style.display = "none";
+        }, 1000); 
+    });
+</script>
+<script src="{% static 'js/dark-mode.js' %}" defer></script>
+</body>
+</html>
+

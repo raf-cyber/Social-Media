@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your 3D Cards</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="container">
+        <h2>Your 3D Cards</h2>
+
+        <!-- Display the cards for the logged-in user -->
+        <div id="card-container" class="centered">
+            {% for card in cards %}
+                <div class="card border-left-behind">
+                    <div class="shadow" style="--url: url('{{ card.image.url }}');"></div>
+                    <div class="image background" style="--url: url('{{ card.image.url }}');"></div>
+                    <div class="image cutout" style="--url: url('{{ card.cutout_image.url }}');"></div>
+                    <div class="content">
+                        <h2>{{ card.title }}</h2>
+                        <p>{{ card.description }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <a href="{% url 'create_card' %}">Create a New Card</a>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

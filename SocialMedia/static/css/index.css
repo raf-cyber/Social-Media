@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    font-family: "Poppins", serif;
+    box-sizing: border-box;
+}
+
+
+.navbar {
+    display: flex;                      
+    justify-content: center;     
+    align-items: center;                
+    padding: 1em;                     
+    background-color: #cacaca; 
+    position: relative; 
+    z-index: 10;
+}
+
+
+.nav-items {
+    position: absolute;
+    left: 1em;
+    font-size: 1.3rem; 
+    margin-top: 1em;
+}
+
+.nav-items ul {
+    list-style-type: none;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.nav-items a {
+    color: black;
+    text-decoration: none;
+}
+
+.nav-items li {
+    display: inline;
+    margin-right: 1.5em;
+    font-family: "Poppins", sans-serif;
+    font-size: 1.3rem;
+    color: black;
+
+}
+
+.app-name {
+    font-family: "Sansita Swashed", system-ui;
+    flex-grow: 1; /* Allow app name to take available space */
+    text-align: center; /* Center the app name */
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    margin-right: auto;
+}
+
+.hamburger .bar {
+    height: 0.25em;
+    width: 1.5em;
+    background-color: black;
+    margin: 0.25em 0;
+}
+
+/* Media Query for Mobile */
+@media (max-width: 57em) { 
+    .nav-items {
+        display: flex;
+        flex-direction: column;
+        width: 40%;
+        background-color: #cacaca;
+        position: absolute;
+        top: 0;
+        left: -100%;
+        opacity: 0;
+        transition: left 0.5s ease-in-out, opacity 0.5s ease-in-out;
+        pointer-events: none;
+    }
+    
+    .nav-items.active {
+        left: 0;
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .nav-list {
+        display: flex;
+        flex-direction: column;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .nav-list li {
+        padding: 1em;
+        cursor: pointer;
+        border-bottom: 1px solid #999;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .nav-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .hamburger {
+        display: flex;               
+    }
+
+    
+.close-icon {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1em;
+    cursor: pointer;
+}
+
+.close-icon .bar {
+    width: 2px;
+    height: 25px;
+    background-color: #333;
+    position: relative;
+}
+
+.close-icon .top {
+    transform: rotate(45deg);
+}
+
+.close-icon .bottom {
+    transform: rotate(-45deg);
+    position: absolute;
+}
+    
+}
+
+.container {
+    max-width: 800px; /* Set a max width for the container */
+    margin: 0 auto; /* Center it */
+    padding: 1em;
+}
+
+.post {
+    margin-bottom: 2em;
+    padding: 1em;
+    border: 1px solid #ccc;
+    border-radius: 0.3em;
+}
+
+.responsive-image {
+    width: 100%; 
+    height: auto;
+    max-width: 100%; 
+    display: block; 
+    margin: 0 auto; 
+}
+
+.profile-container {
+    display: flex;
+    align-items: center;
+}
+
+.profile-pic {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 0.1em solid transparent; 
+    background: linear-gradient(45deg, #ff6a88, #2575fc); 
+    padding: 0.1em; 
+    margin-right: 0.5em;
+}
+
+.like-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: gray; 
+}
+
+.like-button:focus {
+    outline: none;
+}
+
+.comment-section {
+    margin-top: 2em;
+    background-color: #f9f9f9;
+    padding: 1.5em;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.comment-title {
+    font-size: 1.8rem;
+    margin-bottom: 1em;
+}
+
+.comments-list {
+    margin-bottom: 1.5em;
+}
+
+.comment {
+    background-color: #ffffff;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    padding: 1em;
+    margin-bottom: 1em;
+    transition: box-shadow 0.3s;
+}
+
+.comment:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.comment-date {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.comment-form {
+    border-top: 1px solid #e1e1e1;
+    padding-top: 1em;
+}
+
+.comment-form input, .comment-form textarea {
+    margin-bottom: 1em;
+    border-radius: 4px;
+}
+
+.comment-form button {
+    width: 100%;
+}
+
+
+
+.logout-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full height */
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.logout-container h1 {
+    font-size: 2.5em;
+    margin-bottom: 0.5em;
+    color: #333;
+}
+
+.logout-container p {
+    font-size: 1.2em;
+    color: #666;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Distribute space between items */
+    align-items: center;
+    padding: 1em;
+    background-color: #cacaca;
+}
+
+.logout-item {
+    margin-left: auto; /* Push the logout to the right */
+}
+
+.nav-items {
+    display: flex;
+}
+
+.nav-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Keep items in the nav list horizontal */
+}
+
+.nav-list li {
+    margin-right: 1.5em; /* Space between nav items */
+}
+
+.like-button.liked i {
+    color: red; /* Change to the desired reddish color */
+}

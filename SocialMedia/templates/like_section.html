@@ -1,0 +1,42 @@
+<div class="post" id="post-{{ post.id }}" style="border: none;">
+    <button class="like-button" data-post-id="{{ post.id }}" style="border: none;">
+        {% if request.user in post.likes.all %} 
+            <i class="fa-solid fa-heart" style="color: red;"></i> 
+        {% else %} 
+            <i class="fa-regular fa-heart"></i> 
+        {% endif %}
+    </button>
+    <span id="like-count-{{ post.id }}">{{ post.total_likes }}</span >
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.like-button').click(function(e) {
+            e.preventDefault();
+
+            var postId = $(this).data('post-id');
+            var button = $(this);
+
+            $.ajax({
+                type: 'POST',
+                url: '/like/' + postId + '/',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function(response) {
+                    $('#like-count-' + postId).text(response.total_likes);
+                    if (response.is_liked) {
+                        button.html('<i class="fa-solid fa-heart" style="color: red;"></i>');
+                    } else {
+                        button.html('<i class="fa-regular fa-heart"></i>');
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>

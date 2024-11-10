@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logging Out - SocialApp</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/logout.css' %}">
+</head>
+
+<div id="preloader" style="
+    background: #fff url(../media/loader.gif) no-repeat center center;
+    height: 105vh;
+    width: 100%;
+    position: fixed;
+    z-index: 1000;
+    "></div>
+
+
+<body class="bg-light">
+    <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+        <div class="card text-center shadow" style="width: 100%; max-width: 400px;">
+            <div class="card-body">
+                <h1 class="card-title display-4">Logging Out...</h1>
+                <p class="card-text">You have been successfully logged out.</p>
+                <p class="text-muted">Redirecting you to the login page...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        setTimeout(function() {
+            window.location.href = "{% url 'login' %}";
+        }, 2000); // Redirects after 2 seconds
+    </script>
+
+    
+<script>
+    var loader = document.getElementById("preloader");
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            loader.style.display = "none";
+        }, 1000); 
+    });
+</script>
+</body>
+</html>
+

@@ -1,0 +1,759 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Own 3D Card</title>
+    <style>
+        /* Import the font */
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap");
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: "Montserrat", sans-serif;
+            margin: 0;
+            background: #f1f1f1;
+        }
+
+        #container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        form {
+            margin-bottom: 30px;
+        }
+
+        input[type="text"], textarea {
+            width: 300px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        input[type="file"] {
+            padding: 5px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .centered {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .card {
+            position: relative;
+            height: 28rem;
+            width: 20rem;
+            aspect-ratio: 5 / 7;
+            color: #ffffff;
+            perspective: 50rem;
+            transform-style: preserve-3d;
+        }
+
+        .card .shadow {
+            position: absolute;
+            inset: 0;
+            background: var(--url);
+            background-size: cover;
+            background-position: center;
+            opacity: 0.8;
+            filter: blur(2rem) saturate(0.9);
+            box-shadow: 0 -1.5rem 2rem -0.5rem rgba(0, 0, 0, 0.7);
+            transform: rotateX(var(--rotateX)) rotateY(var(--rotateY)) translate3d(0, 2rem, -2rem);
+        }
+
+        .card .image {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent 40%), var(--url);
+            background-size: cover;
+            background-position: center;
+            mask-image: var(--url);
+            mask-size: cover;
+            mask-position: center;
+        }
+
+        .card .image.background {
+            transform: rotateX(var(--rotateX)) rotateY(var(--rotateY)) translate3d(0, 0, 0rem);
+        }
+
+        .card .image.cutout {
+            transform: rotateX(var(--rotateX)) rotateY(var(--rotateY)) translate3d(0, 0, 4rem) scale(0.92);
+            z-index: 3;
+        }
+
+        .card .content {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            inset: 0;
+            padding: 3.5rem;
+            transform: rotateX(var(--rotateX)) rotateY(var(--rotateY)) translate3d(0, 0, 6rem);
+            z-index: 4;
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 2rem rgba(0, 0, 0, 0.5);
+        }
+
+        .card p {
+            font-weight: 300;
+            text-shadow: 0 0 2rem rgba(0, 0, 0, 0.5);
+        }
+
+        .card::before, .card::after {
+            content: "";
+            position: absolute;
+            inset: 1.5rem;
+            border: #e2c044 0.5rem solid;
+            transform: rotateX(var(--rotateX)) rotateY(var(--rotateY)) translate3d(0, 0, 2rem);
+        }
+
+        .card::before {
+            z-index: 4;
+        }
+
+        .card.border-left-behind::before {
+            border-left: transparent;
+        }
+
+        .card.border-right-behind::before {
+            border-right: transparent;
+        }
+
+        .card.border-bottom-behind::before {
+            border-bottom: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2>Create Your Own 3D Card</h2>
+
+
+        <form id="card-form">
+            <input type="file" id="image-upload" accept="image/*" required>
+            <input type="text" id="title-input" placeholder="Enter Card Title" required>
+            <textarea id="description-input" placeholder="Enter Description" required></textarea>
+            <button type="submit">Create Card</button>
+        </form>
+
+        
+        <div id="card-container" class="centered">
+           
+        </div>
+    </div>
+
+    <script>
+        // Utility function to create the card
+        const createCard = (imageUrl, title, description) => {
+            const card = document.createElement("div");
+            card.classList.add("card", "border-left-behind"); // Apply the 3D card classes
+
+            // Add shadow
+            const shadow = document.createElement("div");
+            shadow.classList.add("shadow");
+            shadow.style.setProperty('--url', `url(${imageUrl})`);
+            card.appendChild(shadow);
+
+            // Add background image
+            const imageBackground = document.createElement("div");
+            imageBackground.classList.add("image", "background");
+            imageBackground.style.setProperty('--url', `url(${imageUrl})`);
+            card.appendChild(imageBackground);
+
+            // Add cutout
+            const imageCutout = document.createElement("div");
+            imageCutout.classList.add("image", "cutout");
+            imageCutout.style.setProperty('--url', `url(${imageUrl})`);
+            card.appendChild(imageCutout);
+
+            // Create content for the card
+            const content = document.createElement("div");
+            content.classList.add("content");
+
+            const cardTitle = document.createElement("h2");
+            cardTitle.textContent = title;
+            content.appendChild(cardTitle);
+
+            const cardDescription = document.createElement("p");
+            cardDescription.textContent = description;
+            content.appendChild(cardDescription);
+
+            card.appendChild(content);
+
+            return card;
+        };
+
+        // Event listener for form submission
+        document.getElementById("card-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            // Get user input
+            const imageFile = document.getElementById("image-upload").files[0];
+            const title = document.getElementById("title-input").value;
+            const description = document.getElementById("description-input").value;
+
+            // Create an object URL for the uploaded image
+            const imageUrl = URL.createObjectURL(imageFile);
+
+            // Create the card with the user's inputs
+            const card = createCard(imageUrl, title, description);
+
+            // Append the card to the container
+            document.getElementById("card-container").appendChild(card);
+
+            // Reset the form for new input
+            document.getElementById("card-form").reset();
+        });
+
+        // Function to allow the cards to rotate on hover (3D effect)
+        const angle = 20;
+        const lerp = (start, end, amount) => {
+            return (1 - amount) * start + amount * end;
+        };
+
+        const remap = (value, oldMax, newMax) => {
+            const newValue = ((value + oldMax) * (newMax * 2)) / (oldMax * 2) - newMax;
+            return Math.min(Math.max(newValue, -newMax), newMax);
+        };
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const cards = document.querySelectorAll(".card");
+
+            cards.forEach((e) => {        
+                e.addEventListener("mousemove", (event) => {
+                    const rect = e.getBoundingClientRect();
+                    const centerX = (rect.left + rect.right) / 2;
+                    const centerY = (rect.top + rect.bottom) / 2;
+                    const posX = event.pageX - centerX;
+                    const posY = event.pageY - centerY;
+                    const x = remap(posX, rect.width / 2, angle);
+                    const y = remap(posY, rect.height / 2, angle);
+                    e.dataset.rotateX = -y;
+                    e.dataset.rotateY = x;
+                });
+
+                e.addEventListener("mouseout", () => {
+                    e.dataset.rotateX = 0;
+                    e.dataset.rotateY = 0;
+                });
+            });
+
+            const update = () => {
+                cards.forEach((e) => {
+                    let currentX = parseFloat(e.style.getPropertyValue('--rotateY').slice(0, -1));
+                    let currentY = parseFloat(e.style.getPropertyValue('--rotateX').slice(0, -1));
+                    if (isNaN(currentX)) currentX = 0;
+                    if (isNaN(currentY)) currentY = 0;
+                    const x = lerp(currentX, e.dataset.rotateX, 0.05);
+                    const y = lerp(currentY, e.dataset.rotateY, 0.05);
+                    e.style.setProperty("--rotateY", x + "deg");
+                    e.style.setProperty("--rotateX", y + "deg");
+                });
+            };
+
+            setInterval(update, 1000 / 60);
+        });
+    </script>
+</body>
+</html>
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create and View Cards</title>
+  <link href="https://cdn.jsdelivr.net/npm/swiper@9.0.0/swiper-bundle.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree&family=Nabla&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+
+
+
+  <style>
+    *:not(style, head), *::before, *::after {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: #222;
+      width: 100vw;
+      min-height: 100vh;  
+      overflow-y: auto;
+      overflow-x: hidden;
+      font-family: "Figtree", sans-serif;
+      font-optical-sizing: auto;
+      font-style: normal;
+      font-size: 110%;
+      font-weight: 400;
+      line-height: 150%;
+    }
+
+    .card-creator {
+      margin: 20px;
+      padding: 20px;
+      background: #333;
+      color: white;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .card-creator h3 {
+      margin-bottom: 20px;
+    }
+
+    .card-creator input, .card-creator textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #444;
+      color: white;
+    }
+
+    .card-creator button {
+      padding: 10px 20px;
+      background-color: #2649ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .card-creator button:hover {
+      background-color: #1f38d5;
+    }
+
+    /* Swiper Styles */
+    .swiper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      padding: 50px 20px;
+      overflow: visible;
+    }
+
+    .swiper .parallax-bg {
+      position: absolute;
+      right: -5%;
+      top: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: url("https://rb.gy/wk4c6n");
+      background-size: cover;
+      background-position: top center;
+      background-repeat: no-repeat;
+    }
+
+    .swiper .swiper-wrapper {
+      align-items: center;
+    }
+
+    .swiper .swiper-slide {
+      position: relative;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(102, 102, 102, 0.8);
+      border-radius: 7px;
+      padding: 10px;
+      margin: 0;
+      cursor: grab;
+      user-select: none;
+      text-wrap: pretty;
+    }
+
+    .swiper .swiper-slide img {
+      width: 100%;
+      height: auto;
+      margin-bottom: 25px;
+      border-radius: 5px;
+    }
+
+    .swiper .swiper-slide h2 {
+      font-size: 200%;
+      line-height: 110%;
+      margin: 0 0 7px 0;
+      color: white;
+      font-family: 'Russo One', sans-serif;
+      font-variation-settings: "EDPT" 100, "EHLT" 24;
+      background-color: #111;
+      border-radius: 100%;
+      text-align: center;
+    }
+
+    .swiper .swiper-slide h4 {
+      font-size: 110%;
+      line-height: 120%;
+      font-weight: 700;
+      margin: 0 0 13px 0;
+      color: #bbb;
+      font-style: italic;
+    }
+
+    .swiper .swiper-slide figcaption {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      margin: 0 0 20px 0;
+      padding-left: 20px;
+      border-left: 1px solid white;
+    }
+
+    .swiper .swiper-slide figcaption p {
+      color: #999;
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .swiper .swiper-slide a {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background-color: black;
+      color: white;
+      border-radius: 3px;
+      text-decoration: none;
+      overflow: hidden;
+      z-index: 1;
+      transition: all 0.6s ease !important;
+    }
+
+    .swiper .swiper-slide a:hover {
+      color: black;
+      transition: all 0.6s ease;
+    }
+
+    .swiper .swiper-slide a::after {
+      position: absolute;
+      right: 100%;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #2649ff;
+      content: "";
+      z-index: -1;
+      transition: all 0.6s ease;
+    }
+
+    .swiper .swiper-slide a:hover::after {
+      right: 0;
+      transition: all 0.6s ease;
+    }
+
+    .swiper .swiper-slide a svg {
+      width: 23px;
+      height: auto;
+      fill: white;
+      margin-left: 5px;
+      transition: all 0.6s ease;
+    }
+
+    .swiper .swiper-slide a:hover svg {
+      margin-left: 10px;
+      fill: black;
+      transition: all 0.6s ease;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 750px) {
+      .swiper .parallax-bg {
+        width: 320%;
+      }
+    }
+
+    @media (max-height: 550px) {
+      .swiper .swiper-slide figcaption p {
+        -webkit-line-clamp: 2;
+      }
+    }
+    
+    @media (max-height: 490px) {
+      .swiper .swiper-slide figcaption p {
+        -webkit-line-clamp: 1;
+      }
+    }
+
+    @media (max-height: 460px) {
+      .swiper .swiper-slide figcaption p {
+        display: none;
+      }
+      .swiper .swiper-slide h4 {
+        margin: 0;
+      }
+    }
+
+    @media (max-height: 430px) {
+      .swiper .swiper-wrapper {
+        position: relative;
+        bottom: 6px;
+      }
+    }
+    .image-preview {
+  margin-top: 10px;
+  max-width: 100%;
+  max-height: 200px;
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Style for the image upload button */
+.image-upload-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #2649ff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.image-upload-btn:hover {
+  background-color: #1d39d1;
+}
+  </style>
+</head>
+<body>
+<!-- Check if the logged-in user is viewing their own cards -->
+{% if user == request.user %}
+  <div class="card-creator">
+    <h3>Create Your Card</h3>
+    <form id="cardForm" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="title" id="cardTitle" placeholder="Enter Card Title" required />
+        <input type="text" name="subtitle" id="cardSubtitle" placeholder="Enter Subtitle" required />
+        <!-- Image input button -->
+        <input type="file" name="image" id="cardImage" accept="image/*" style="display: none;" required />
+        <label for="cardImage" class="image-upload-btn">Choose Image</label>
+        <textarea name="description" id="cardDescription" placeholder="Enter Card Description" required></textarea>
+        <button type="submit">Create Card</button>
+      </form>
+      
+  </div>
+{% endif %}
+
+  
+  <!-- Swiper Section -->
+  <div class="swiper-container swiper">
+    <div class="swiper-wrapper" id="swiperWrapper">
+      <!-- Dynamically added swiper-slide elements will go here -->
+      {% for card in cards %}
+        <div class="swiper-slide">
+          <figure class="cardPopout">
+            <img src="{{ card.image.url }}" alt="{{ card.title }}" />
+            <h2>{{ card.title }}</h2>
+            <h4>{{ card.subtitle }}</h4>
+            <figcaption>
+              <p>{{ card.description }}</p>
+            </figcaption>
+            <a href="#" target="_blank">
+              <span>Learn More</span>
+              <svg width="23" height="23" fill="white"><use xlink:href="#arrow-icon"></use></svg>
+            </a>
+          </figure>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-scrollbar"></div>
+  </div>
+  
+  
+  <svg style="display:none;">
+    <symbol id="arrow-icon" viewBox="0 0 24 24">
+      <path d="M0 12l9 9V3l-9 9z"/>
+    </symbol>
+  </svg>
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9.0.0/swiper-bundle.min.js"></script>
+  <script>
+// Initialize Swiper instance
+const swiper = new Swiper(".swiper", {
+  direction: "horizontal",
+  loop: false,
+  speed: 1500,
+  slidesPerView: 4,
+  spaceBetween: 60,
+  mousewheel: true,
+  parallax: true,
+  centeredSlides: true,
+  effect: "coverflow",
+  coverflowEffect: {
+    rotate: 40,
+    slideShadows: true
+  },
+  autoplay: {
+    delay: 2000,
+    pauseOnMouseEnter: true
+  },
+  scrollbar: {
+    el: ".swiper-scrollbar"
+  },
+  breakpoints: {
+    0: {
+      slidesPerView: 1,
+      spaceBetween: 60
+    },
+    600: {
+      slidesPerView: 2,
+      spaceBetween: 60
+    },
+    1000: {
+      slidesPerView: 3,
+      spaceBetween: 60
+    },
+    1400: {
+      slidesPerView: 4,
+      spaceBetween: 60
+    },
+    2300: {
+      slidesPerView: 5,
+      spaceBetween: 60
+    },
+    2900: {
+      slidesPerView: 6,
+      spaceBetween: 60
+    }
+  }
+});
+
+// Function to create a new card element dynamically
+function createCard(title, subtitle, imageFile, description) {
+  const swiperWrapper = document.getElementById('swiperWrapper');
+  
+  // Check if an image file is provided
+  if (!imageFile) {
+    console.error('No image file selected');
+    alert('Please select an image!');
+    return;
+  }
+
+  // Generate image URL using createObjectURL
+  const imageUrl = URL.createObjectURL(imageFile);
+
+  // Debug log to confirm the image URL is generated correctly
+  console.log('Image URL:', imageUrl);
+
+  // Create a new slide (swiper-slide)
+  const slide = document.createElement('div');
+  slide.classList.add('swiper-slide');
+  
+  // Inner content structure for the card
+  slide.innerHTML = `
+    <figure class="cardPopout">
+      <img src="${imageUrl}" alt="${title}" />
+      <h2>${title}</h2>
+      <h4>${subtitle}</h4>
+      <figcaption>
+        <p>${description}</p>
+      </figcaption>
+      <a href="#" target="_blank">
+        <span>Learn More</span>
+        <svg width="23" height="23" fill="white"><use xlink:href="#arrow-icon"></use></svg>
+      </a>
+    </figure>
+  `;
+  
+  // Append the new card to the swiper-wrapper
+  swiperWrapper.appendChild(slide);
+
+  // Reinitialize Swiper to reflect the added card (important after DOM changes)
+  swiper.update(); // Update Swiper to include the new slide
+}
+
+// Handle the form submission
+document.getElementById('cardForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent page reload
+
+  // Get the form values
+  const title = document.getElementById('cardTitle').value;
+  const subtitle = document.getElementById('cardSubtitle').value;
+  const imageFile = document.getElementById('cardImage').files[0]; // Get the uploaded file
+  const description = document.getElementById('cardDescription').value;
+
+  // Ensure the image file is selected before submitting
+  if (imageFile) {
+    // Call the function to create the card
+    createCard(title, subtitle, imageFile, description);
+
+    // Optionally, clear the form after submission
+    event.target.reset();
+    document.getElementById('imagePreview').innerHTML = ''; // Clear image preview
+  } else {
+    alert('Please select an image!');
+  }
+});
+
+// Image file input change handler (for preview)
+document.getElementById('cardImage').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  const previewContainer = document.getElementById('imagePreview');
+
+  // Ensure an image file is selected
+  if (file && file.type.startsWith('image/')) {
+    const imageUrl = URL.createObjectURL(file);
+
+    // Create an image preview element
+    previewContainer.innerHTML = `<img src="${imageUrl}" alt="Image Preview" class="preview-img" />`;
+  } else {
+    previewContainer.innerHTML = 'Invalid image file. Please choose an image.';
+  }
+});
+
+  </script>
+</body>
+</html>
+
+  

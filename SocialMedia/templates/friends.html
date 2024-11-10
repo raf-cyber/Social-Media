@@ -1,0 +1,284 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Friends - SocialApp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dark-mode.css' %}">
+
+</head>
+<style>
+    .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1em;
+            background-color: #cacaca;
+            width: 100%;
+            top: 0;
+            z-index: 10;
+            height: 4em;
+            font-family: "Sansita Swashed", system-ui;
+        }
+        .logout-item {
+            margin-left: auto;
+        }
+        .nav-items {
+            display: flex;
+            font-size: 1.3rem; 
+        }
+        .nav-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        .nav-list li {
+            margin-right: 1.5em;
+        }
+        .nav-items a {
+            color: black;
+            text-decoration: none;
+            font-family: "Poppins", sans-serif;
+            font-size: 1.3rem;
+        }
+        .nav-items li {
+            color: black;
+        }
+        .app-name {
+            font-family: "Sansita Swashed", system-ui;
+            color: black;
+            font-size: 2rem;
+            margin-left: 5em; 
+        }
+        body.dark-mode {
+    background-color: #121212;
+    color: #fff;
+}
+
+body.dark-mode .navbar {
+    background-color: #333;
+}
+
+body.dark-mode .navbar i {
+    color: white;
+}
+
+body.dark-mode .navbar .nav-items a {
+    color: #fff;
+}
+
+body.dark-mode .app-name h3 {
+    color: #fff;
+}
+
+body.dark-mode .list-group-item {
+    background-color: #1c1c1c;
+    color: #fff;
+    border: 1px solid #444;
+}
+
+body.dark-mode .list-group-item a {
+    color: #bb86fc;
+}
+
+body.dark-mode .alert-info {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #444;
+}
+
+body.dark-mode .modal-content {
+    background-color: #2a2a2a;
+    color: #fff;
+}
+
+body.dark-mode .btn-danger {
+    background-color: #bb86fc;
+    border-color: #bb86fc;
+}
+
+body.dark-mode .btn-danger:hover {
+    background-color: #9e5cfc;
+    border-color: #9e5cfc;
+}
+
+body.dark-mode .friends-heading {
+    color: white;
+}
+
+.friends-heading {
+    color: #333;
+}
+
+
+</style>
+<body>
+
+    <div id="preloader" style="
+    background: #fff url(../media/loader.gif) no-repeat center center;
+    height: 105vh;
+    width: 100%;
+    position: fixed;
+    z-index: 1000;
+    "></div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="hamburger" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <div class="nav-items">
+            <div class="close-icon" onclick="toggleMenu()">
+                <div class="bar top"></div>
+                <div class="bar bottom"></div>
+            </div>
+            <ul class="nav-list" style="display: flex; list-style-type: none; padding: 0; margin: 0;">
+                <li style="margin: 0 1.5rem; font-size: 1.5rem;">
+                    <a href="{% url 'home' %}" style="text-decoration: none; color: inherit;">
+                        <i class="fa-solid fa-house"></i>
+                    </a>
+                </li>
+                <li style="margin: 0 1.5rem; font-size: 1.5rem;">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile_view' user.username %}" style="text-decoration: none; color: inherit;">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
+                    {% endif %}
+                </li>
+                <li style="margin: 0 1.5rem; font-size: 1.5rem;">
+                    <a href="{% url 'messages' %}" style="text-decoration: none; color: inherit;">
+                        <i class="fa-solid fa-message"></i>
+                    </a>
+                </li>            
+                <li style="margin: 0 1.5rem; font-size: 1.5rem;">
+                    <a href="{% url 'friends' %}" style="text-decoration: none; color: inherit;">
+                        <i class="fa-solid fa-user-friends"></i>
+                    </a>
+                </li>
+                <li style="margin: 0 1.5rem; font-size: 1.5rem;">
+                    <a href="{% url 'create_post' %}" style="text-decoration: none; color: inherit;">
+                        <i class="fa-solid fa-plus"></i>
+                    </a>
+                </li>
+                <li style="margin: 0 1.5rem; font-size: 1.5rem;">
+                    <a href="{% url 'shorts_view' %}" style="text-decoration: none; color: inherit;">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+                </li>
+            </ul>            
+        </div>
+        <div class="app-name">
+            <h3>Amity</h3>
+        </div>
+        <div class="nav-items" style="margin-left: auto;"></div>
+    </nav>
+    <!-- END OF NAVBAR -->
+
+
+    
+
+    
+    <main class="container mt-5">
+        <h1 class="mb-4 text-center friends-heading" style=" font-size: 2.5rem; font-weight: bold;">Your Friends</h1>
+        
+        {% if friends %}
+            <div class="list-group">
+                {% for friend in friends %}
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="{% url 'profile_view' friend.username %}"><strong>{{ friend.username }}</strong></a>
+                            <br>
+                            <small>Friend since: {{ friend.created_at }}</small>
+                            {{ friend.created_at }}
+                        </div>
+                        <button class="btn btn-danger btn-sm unfriend-button" data-user-id="{{ friend.id }}">Unfriend</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info" role="alert">
+                You have no friends yet. Start adding some!
+            </div>
+        {% endif %}
+        <a href="{% url 'friend_requests' %}" class="btn btn-primary">Friend Requests</a>
+    </main>
+
+    <!-- Unfriend Confirmation Modal -->
+    <div class="modal fade" id="unfriendModal" tabindex="-1" role="dialog" aria-labelledby="unfriendModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="unfriendModalLabel">Confirm Unfriend</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to unfriend this user?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmUnfriend">Unfriend</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let userIdToUnfriend;
+
+        $(document).ready(function() {
+            // Show the modal and set the user ID
+            $('.unfriend-button').on('click', function() {
+                userIdToUnfriend = $(this).data('user-id');
+                $('#unfriendModal').modal('show');
+            });
+
+            // Handle the confirm button click
+            $('#confirmUnfriend').on('click', function() {
+                $.ajax({
+                    url: "{% url 'unfriend' 0 %}".replace('0', userIdToUnfriend),
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        // Remove the friend's item from the list
+                        $('.unfriend-button[data-user-id="' + userIdToUnfriend + '"]').closest('.list-group-item').fadeOut();
+                        $('#unfriendModal').modal('hide');
+                        document.getElementById('unfriendModal').remove() // This line hides the modal
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error Status:", status);
+                        console.error("Error Response:", xhr.responseText);
+                        alert("An error occurred while trying to unfriend this user.");
+                    }
+                });
+            });
+
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+<script>
+    var loader = document.getElementById("preloader");
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            loader.style.display = "none";
+        }, 1000); 
+    });
+</script>
+<script src="{% static 'js/dark-mode.js' %}" defer></script>
+</body>
+</html>

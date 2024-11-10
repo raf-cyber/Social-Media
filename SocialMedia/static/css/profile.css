@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* Base styles */
+body {
+    font-family: "Poppins", serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+h1 {
+    font-size: 2em; /* Adjust based on your design */
+    text-align: center;
+    margin: 1.5em 0;
+}
+
+.profile-container {
+    text-align: center;
+    padding: 1.5em; /* Adjust spacing around the container */
+}
+
+.profile-picture {
+    width: 10em; /* Base width */
+    height: 10em; /* Base height */
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto; /* Center the container */
+}
+
+.profile-picture img {
+    width: 100%; /* Full width for responsive images */
+    height: auto; /* Maintain aspect ratio */
+}
+
+h2 {
+    font-size: 1.5em; /* Size of username */
+    margin: 0.5em 0; /* Space around username */
+}
+
+p {
+    font-size: 1em; /* Base size for text */
+    margin: 0.3em 0; /* Space around post and friend counts */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8em; /* Slightly smaller on mobile */
+    }
+
+    .profile-picture {
+        width: 8em; /* Smaller size on mobile */
+        height: 8em;
+    }
+
+    h2 {
+        font-size: 1.2em; /* Smaller size on mobile */
+    }
+
+    p {
+        font-size: 0.9em; /* Smaller text on mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.6em; /* Even smaller on very small devices */
+    }
+
+    .profile-picture {
+        width: 6em; /* Even smaller size */
+        height: 6em;
+    }
+
+    h2 {
+        font-size: 1em; /* Adjust for small screens */
+    }
+
+    p {
+        font-size: 0.8em; /* Adjust for small screens */
+    }
+}

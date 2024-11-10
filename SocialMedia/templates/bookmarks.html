@@ -1,0 +1,19 @@
+<!-- bookmarks.html -->
+{% extends "Index/index.html" %}
+
+{% block content %}
+    <h2>Your Bookmarked Posts</h2>
+    
+    {% if bookmarked_posts %}
+        <ul>
+            {% for bookmark in bookmarked_posts %}
+                <li>
+                    <a href="{% url 'post_detail' bookmark.post.id %}">{{ bookmark.post.title }}</a>
+                    <span>Bookmarked on {{ bookmark.created_at }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have no bookmarked posts yet.</p>
+    {% endif %}
+{% endblock %}

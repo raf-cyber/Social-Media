@@ -1,0 +1,147 @@
+{% load static %}
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+
+    <!-- css styling -->
+
+    <style>
+          body {
+            font-size: 1em; /* Base font size */
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa; /* Light background color */
+        }
+        .container {
+            max-width: 90%; /* Max width set to 90% */
+            margin: 0 auto; /* Center the container */
+            padding: 2em 0; /* Top and bottom padding */
+        }
+        .friend-requests {
+            background-color: #fff; /* White background for requests section */
+            padding: 2em; /* Padding for the requests section */
+            border-radius: 0.5em; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            text-align: center; /* Center text */
+        }
+        .friend-request {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #ccc;
+            padding: 1em; /* Increased padding for more space */
+            border-radius: 0.5em; /* Rounded corners */
+            margin-bottom: 1em; /* Space between requests */
+        }
+        .friend-request img {
+        width: 4em; /* Size of the profile picture */
+        height: 4em; /* Size of the profile picture */
+        border-radius: 50%; /* Circular profile picture */
+        margin-right: 0.5em; /* Space between image and text */
+        }
+        .search-bar {
+            margin-bottom: 2em; /* Space below search bar */
+            display: flex; /* Flex display for centering */
+            justify-content: center; /* Center horizontally */
+        }
+        #searchInput {
+            width: 50%; /* Set width for search input */
+            padding: 1em; /* Padding inside the search input */
+            border-radius: 0.5em; /* Rounded corners */
+            border: 1px solid #ccc; /* Border style */
+        }
+        .btn {
+        padding: 0.75em 2em; /* Increased padding for larger buttons */
+        font-size: 1em; /* Font size */
+        flex: 1; /* Allow buttons to grow and fit the container */
+        margin-left: 0.5em; /* Space between buttons */
+        }
+        .accept-button {
+        background-color: #5cb85c;
+        color: white;
+        border: none; /* Remove default border */
+        border-radius: 0.5em; /* Rounded corners */
+        }
+        .reject-button {
+        background-color: #d9534f;
+        color: white;
+        border: none; /* Remove default border */
+        border-radius: 0.5em; /* Rounded corners */
+        }
+    </style>
+</head>
+
+<div class="container">
+    <div class="friend-requests">
+        <h2>Friend Requests</h2>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search by username..." />
+        </div>
+
+        {% for request in friend_requests %}
+            <div class="friend-request" id="request-{{ request.id }}">
+                <div class="d-flex align-items-center">
+                    {% if request.sender.profile.profile_picture %}
+                        <img src="{{ request.sender.profile.profile_picture.url }}" alt="Profile Picture">
+                    {% else %}
+                        <img src="{% static 'profile_pics/default-profile.png' %}" alt="Default Profile Picture">
+                    {% endif %}
+                    <p class="mb-0 ms-2">{{ request.sender.username }}</p>
+                </div>
+                <div class="d-flex">
+                    <button class="btn accept-button" data-id="{{ request.id }}">Accept</button>
+                    <button class="btn reject-button" data-id="{{ request.id }}">Reject</button>
+                </div>
+            </div>
+        {% empty %}
+            <p>No friend requests.</p>
+        {% endfor %}
+    </div>
+</div>
+<script>
+
+// searchbar
+$(document).ready(function() {
+    // Search bar functionality
+    $('#searchInput').on('keyup', function() {
+        const value = $(this).val().toLowerCase();
+        $('.friend-request').filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+    });
+
+    $('.accept-button').click(function() {
+        const requestId = $(this).data('id');
+        $.ajax({
+            url: `/accept_friend_request/${requestId}/`,
+            type: 'POST',
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    $(`#request-${requestId}`).remove(); // Remove the request from the UI
+                }
+            }
+        });
+    });
+
+    $('.reject-button').click(function() {
+        const requestId = $(this).data('id');
+        $.ajax({
+            url: `/reject_friend_request/${requestId}/`,
+            type: 'POST',
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    $(`#request-${requestId}`).remove(); // Remove the request from the UI
+                }
+            }
+        });
+    });
+});
+
+</script>
